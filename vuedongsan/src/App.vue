@@ -1,38 +1,36 @@
 <template>
   <div>
-    <div class="black-bg" v-if="modalCheck">
-      <div class="white-bg">
-        <img :src="onerooms[clickedIndex].image" style="width:100%;">
-        <h4>{{onerooms[clickedIndex].title}}</h4>
-        <p>{{onerooms[clickedIndex].content}}</p>
-        <p>{{onerooms[clickedIndex].price}}원</p>
-        <Discount/>
-        <button @click="modalCheck = false">닫기</button>
-      </div>
-    </div>
+
+    <transition name="fade">
+      <Modal @close-modal="modalCheck = false;"
+      :onerooms="onerooms" :clickedIndex="clickedIndex" :modalCheck="modalCheck" />
+    </transition>
 
     <div class="menu">
       <a v-for="(menu, i) in menus" :key="i">{{ menu }}</a>
     </div>
 
-    <Discount/>
+    <Discount v-if="showDiscount" />
 
-    <div v-for="(oneroom, i) in onerooms" :key='i'>
-      <img :src="oneroom.image" class="room-img">
-      <h4 @click="modalCheck = true; clickedIndex = i">{{oneroom.title}}</h4>
-      <p>{{oneroom.price}}원</p>
-    </div>
+    <button @click="priceSort">가격순정렬</button>
+    <button @click="sortBack">되돌리기</button>
+    
+    <Card @open-modal="modalCheck = true; clickedIndex = i;" v-for="(oneroom, i) in onerooms" :key="i" :oneroom="oneroom" />
   </div>
 </template>
 
 <script>
 import data from './assets/oneroom';
 import Discount from './Discount.vue';
+import Modal from './Modal.vue';
+import Card from './Card.vue'
 
 export default {
   name: 'App',
   data() {   // data 보관함 (Object 형식)
     return {
+      showDiscount: true,
+      onerooms_origin: [...data],
       clickedIndex: 0,
       onerooms: data,
       modalCheck: false,
@@ -43,14 +41,44 @@ export default {
     }
   },
   methods: {
+    priceSort() {
+      this.onerooms.sort(function(a, b) {
+        return a.price - b.price;
+      });
+    },
+    sortBack() {
+      this.onerooms = [...this.onerooms_origin];
+    }
   },
   components: {
     Discount: Discount,
+    Modal: Modal,
+    Card: Card,
   }
 }
 </script>
 
 <style>
+.fade-enter-from {
+  transform: translateY(-1000px);
+}
+.fade-enter-active {
+  transition: all 1s;
+}
+.fade-enter-to {
+  transform: translateY(0px);
+}
+.fade-leave-from {
+  opacity: 1;
+}
+.fade-leave-active {
+  transition: all 1s;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+
+
 body {
   margin: 0;
 }
