@@ -3,21 +3,21 @@ import List from './components/List.vue';
 import Home from './components/Home.vue';
 import Detail from './components/Detail.vue';
 import Author from './components/Author.vue';
-import Comment from './components/Commnet.vue';
+import Comment from './components/Comment.vue';
 
 const routes = [
   {
-    path: "/",
+    path: "/test/blog/",
     component: Home,
   },
   {
-    path: "/list",
+    path: "/test/blog/list",
     component: List,
   },
   {
     // (\\d+) : 숫자만 찾아주는 정규식 문법
     // * : 입력하면 반복함 ex) /id/id/id....
-    path: '/detail/:id(\\d+)', 
+    path: '/test/blog/detail/:id(\\d+)', 
     component: Detail,
     children: [
       {
