@@ -4,20 +4,26 @@ import Home from './components/Home.vue';
 import Detail from './components/Detail.vue';
 import Author from './components/Author.vue';
 import Comment from './components/Comment.vue';
+import root from './root';
 
 const routes = [
   {
-    path: "/test/blog/",
+    path: `${root}/`,
+    // alias: [`${root}/index.html`],
     component: Home,
   },
   {
-    path: "/test/blog/list",
+    path: `${root}/index.html`,
+    redirect: `${root}/`,
+  },
+  {
+    path: `${root}/list`,
     component: List,
   },
   {
     // (\\d+) : 숫자만 찾아주는 정규식 문법
     // * : 입력하면 반복함 ex) /id/id/id....
-    path: '/test/blog/detail/:id(\\d+)', 
+    path: `${root}/detail/:id(\\d+)`, 
     component: Detail,
     children: [
       {

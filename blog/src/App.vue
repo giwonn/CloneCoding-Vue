@@ -25,8 +25,8 @@
       </div>
     </nav>
 
-    <router-link to='/test/blog/'>홈페이지</router-link><br>
-    <router-link to='/test/blog/list'>리스트페이지</router-link><br>
+    <router-link :to="root+'/'">홈페이지</router-link><br>
+    <router-link :to="root+'/list'">리스트페이지</router-link><br>
 
     <div class='mt-4'>
       <router-view :blog="blog"></router-view>
@@ -37,12 +37,14 @@
 
 <script>
 import blog from './assets/blog';
+import root from './root';
 
 export default {
   name: 'App',
   data() {
     return {
       blog: blog,
+      root: root,
     }
   },
   components: {
