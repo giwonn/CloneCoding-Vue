@@ -6,7 +6,7 @@ const store = createStore({
   state() {
     return {
       data: data,
-      step: 0,
+      step: 3,
       mydata: {
         name: "Giwon Lim",
         userImage: "https://placeimg.com/100/100/arch",

@@ -18,9 +18,12 @@
     <div v-if="step === 2">
       <div :class="`${mydata.filter} upload-image`" :style="`background-image : url(${mydata.postImage})`"></div>
       <div class="write">
-        <!-- <textarea @input="$emit('write', $event.target.value)" class="write-box">write!</textarea> -->
         <textarea @input="$store.commit('setContent', $event.target.value)" class="write-box">write!</textarea>
       </div>
+    </div>
+
+    <div v-if="step == 3">
+      <MyPage />
     </div>
   </div>
 </template>
@@ -29,6 +32,7 @@
 import Post from "./Post.vue";
 import FilterBox from "./FilterBox.vue";
 import { mapState } from "vuex";
+import MyPage from "./MyPage.vue";
 
 export default {
   name: "Container",
@@ -46,6 +50,7 @@ export default {
   components: {
     Post: Post,
     FilterBox: FilterBox,
+    MyPage: MyPage,
   },
   props: {
     imageUrl: String,
