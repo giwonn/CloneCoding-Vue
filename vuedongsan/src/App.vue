@@ -1,9 +1,7 @@
 <template>
   <div>
-
     <transition name="fade">
-      <Modal @close-modal="modalCheck = false;"
-      :onerooms="onerooms" :clickedIndex="clickedIndex" :modalCheck="modalCheck" />
+      <Modal @close-modal="modalCheck = false" :onerooms="onerooms" :clickedIndex="clickedIndex" :modalCheck="modalCheck" />
     </transition>
 
     <div class="menu">
@@ -14,20 +12,21 @@
 
     <button @click="priceSort">가격순정렬</button>
     <button @click="sortBack">되돌리기</button>
-    
-    <Card @open-modal="modalCheck = true; clickedIndex = i;" v-for="(oneroom, i) in onerooms" :key="i" :oneroom="oneroom" />
+
+    <Card @open-modal="modalCheck = true clickedIndex = i" v-for="(oneroom, i) in onerooms" :key="i" :oneroom="oneroom" />
   </div>
 </template>
 
 <script>
-import data from './assets/oneroom';
-import Discount from './Discount.vue';
-import Modal from './Modal.vue';
-import Card from './Card.vue';
+import data from "./assets/oneroom"
+import Discount from "./Discount.vue"
+import Modal from "./Modal.vue"
+import Card from "./Card.vue"
 
 export default {
-  name: 'App',
-  data() {   // data 보관함 (Object 형식)
+  name: "App",
+  data() {
+    // data 보관함 (Object 형식)
     return {
       showDiscount: true,
       onerooms_origin: [...data],
@@ -35,26 +34,26 @@ export default {
       onerooms: data,
       modalCheck: false,
       reports: [0, 0, 0],
-      menus: ['Home', 'Shop', 'About'],
-      products: ['역삼동원룸', '천호동원룸', '마포구원룸'],
+      menus: ["Home", "Shop", "About"],
+      products: ["역삼동원룸", "천호동원룸", "마포구원룸"],
       prices: [50, 60, 70],
     }
   },
   methods: {
     priceSort() {
       this.onerooms.sort(function(a, b) {
-        return a.price - b.price;
-      });
+        return a.price - b.price
+      })
     },
     sortBack() {
-      this.onerooms = [...this.onerooms_origin];
-    }
+      this.onerooms = [...this.onerooms_origin]
+    },
   },
   components: {
     Discount: Discount,
     Modal: Modal,
     Card: Card,
-  }
+  },
 }
 </script>
 
@@ -78,7 +77,6 @@ export default {
   opacity: 0;
 }
 
-
 body {
   margin: 0;
 }
@@ -89,7 +87,7 @@ div {
 .black-bg {
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   position: fixed;
   padding: 20px;
 }

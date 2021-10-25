@@ -5,16 +5,15 @@
         <li>Cancel</li>
       </ul>
       <ul class="header-button-right">
-        <li>Next</li>
+        <li v-if="step === 1" @click="step++">Next</li>
+        <li v-if="step === 2" @click="publish">발행</li>
       </ul>
       <img src="./assets/logo.png" class="logo" />
     </div>
 
-    <Container :data="data" :step="step" :imageUrl="imageUrl" />
-    <button @click="step = 0">0</button>
-    <button @click="step = 1">1</button>
-    <button @click="step = 2">2</button>
-    <button @click="more">더보기</button>
+    <Container :data="data" :step="step" :imageUrl="imageUrl" @write="writeContent = $event" />
+
+    <!-- <button @click="more">더보기</button> -->
 
     <div class="footer">
       <ul class="footer-button-plus">
@@ -26,40 +25,56 @@
 </template>
 
 <script>
-import Container from './components/Container.vue';
-import data from './assets/data';
-import axios from 'axios';
+import Container from "./components/Container.vue";
+import data from "./assets/data";
+import axios from "axios";
 
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
       data: data,
       step: 0,
-      imageUrl: '',
-    }
+      imageUrl: "",
+      writeContent: "",
+    };
   },
   methods: {
     more() {
-      axios.get(`https://codingapple1.github.io/vue/more${this.cnt}.json`)
-      .then((res) => {
-        this.data.push(res.data);
-        this.cnt++;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      axios
+        .get(`https://codingapple1.github.io/vue/more${this.cnt}.json`)
+        .then((res) => {
+          this.data.push(res.data);
+          this.cnt++;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     upload(e) {
-      let file = e.target.files
+      let file = e.target.files;
       this.imageUrl = URL.createObjectURL(file[0]);
       this.step = 1;
-    }
+    },
+    publish() {
+      const mydata = {
+        name: "Kim Hyun",
+        userImage: "https://placeimg.com/100/100/arch",
+        postImage: this.imageUrl,
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: this.writeContent,
+        filter: "perpetua",
+      };
+      this.data.unshift(mydata);
+      this.step = 0;
+    },
   },
   components: {
     Container: Container,
-  }
-}
+  },
+};
 </script>
 
 <style>
