@@ -1,14 +1,14 @@
 <template>
   <div>
     <div v-if="step === 0">
-      <Post v-for="(postdata, idx) in data" :key="idx" :postdata="postdata" />
+      <Post v-for="(postdata, i) in data" :key="i" :idx="i" :postdata="postdata" />
     </div>
 
     <!-- 필터선택페이지 -->
     <div v-if="step === 1">
-      <div :class="`${filtered} upload-image`" :style="`background-image : url(${imageUrl})`"></div>
+      <div :class="`${mydata.filter} upload-image`" :style="`background-image : url(${mydata.postImage})`"></div>
       <div class="filters">
-        <FilterBox :imageUrl="imageUrl" :filter="filter" v-for="filter in filters" :key="filter">
+        <FilterBox :filter="filter" v-for="filter in filters" :key="filter">
           <span>{{ filter }}</span>
         </FilterBox>
       </div>
@@ -16,9 +16,10 @@
 
     <!-- 글작성페이지 -->
     <div v-if="step === 2">
-      <div :class="`${filtered} upload-image`" :style="`background-image : url(${imageUrl})`"></div>
+      <div :class="`${mydata.filter} upload-image`" :style="`background-image : url(${mydata.postImage})`"></div>
       <div class="write">
-        <textarea @input="$emit('write', $event.target.value)" class="write-box">write!</textarea>
+        <!-- <textarea @input="$emit('write', $event.target.value)" class="write-box">write!</textarea> -->
+        <textarea @input="$store.commit('setContent', $event.target.value)" class="write-box">write!</textarea>
       </div>
     </div>
   </div>
@@ -27,6 +28,7 @@
 <script>
 import Post from "./Post.vue";
 import FilterBox from "./FilterBox.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "Container",
@@ -38,13 +40,14 @@ export default {
        "reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"]
     };
   },
+  computed: {
+    ...mapState(["data", "mydata", "step"]),
+  },
   components: {
     Post: Post,
     FilterBox: FilterBox,
   },
   props: {
-    data: Array,
-    step: Number,
     imageUrl: String,
     filtered: String,
   },

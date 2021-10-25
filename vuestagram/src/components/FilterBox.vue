@@ -1,19 +1,23 @@
 <template>
-  <div @click="fire" :class="`${filter} filter-item`" :style="`background-image:url(${imageUrl})`">
+  <div @click="fire" :class="`${filter} filter-item`" :style="`background-image:url(${mydata.postImage})`">
     <slot></slot>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "filterbox",
+  computed: {
+    ...mapState(["mydata"]),
+  },
   methods: {
     fire() {
-      this.emitter.emit("filtered", this.filter);
+      // this.emitter.emit("filtered", this.filter);
+      this.$store.commit("setFilter", this.filter);
     },
   },
   props: {
-    imageUrl: String,
     filter: String,
   },
 };

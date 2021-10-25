@@ -6,30 +6,58 @@ const store = createStore({
   state() {
     return {
       data: data,
-      name: "kim",
-      age: 20,
-      likes: 30,
-      likeCheck: false,
-      more: {},
+      step: 0,
+      mydata: {
+        name: "Giwon Lim",
+        userImage: "https://placeimg.com/100/100/arch",
+        postImage: "",
+        likes: 0,
+        date: "Oct 25",
+        liked: false,
+        content: "",
+        filter: "",
+      },
     };
   },
   mutations: {
+    clickCancel(state) {
+      if (state.step !== 0) {
+        state.step = 0;
+      }
+    },
+    postWriting(state, data) {
+      state.data.unshift({ ...data });
+      state.mydata.postImage = "";
+      state.mydata.content = "";
+      state.mydata.filter = "";
+    },
+    setPostImage(state, data) {
+      state.mydata.postImage = data;
+    },
+    setContent(state, data) {
+      state.mydata.content = data;
+    },
+    setFilter(state, data) {
+      state.mydata.filter = data;
+    },
     setMore(state, data) {
-      state.more = data;
+      state.data.unshift(data);
     },
-    setName(state) {
-      state.name = "park";
-    },
-    plusAge(state, data) {
-      state.age += data;
-    },
-    like(state) {
-      if (!state.likeCheck) {
-        state.likes++;
-        state.likeCheck = true;
+    plusStep(state) {
+      if (state.step == 2) {
+        state.step = 0;
       } else {
-        state.likes--;
-        state.likeCheck = false;
+        state.step++;
+      }
+    },
+    like(state, i) {
+      const data = state.data[i];
+      if (!data.liked) {
+        data.likes++;
+        data.liked = true;
+      } else {
+        data.likes--;
+        data.liked = false;
       }
     },
   },

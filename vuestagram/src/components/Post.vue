@@ -5,10 +5,9 @@
         <div class="profile" :style="`background-image: url(${postdata.userImage})`"></div>
         <span class="profile-name">{{ postdata.name }}</span>
       </div>
-      <div @click="$store.commit('like')" :class="`${postdata.filter} post-body`" :style="{ backgroundImage: `url(${postdata.postImage})` }"></div>
+      <div @click="$store.commit('like', idx)" :class="`${postdata.filter} post-body`" :style="{ backgroundImage: `url(${postdata.postImage})` }"></div>
       <div class="post-content">
-        <!-- <p>{{ postdata.likes }} Likes</p> -->
-        <p>{{ $store.state.likes }} Likes</p>
+        <p>{{ postdata.likes }} Likes</p>
         <p>
           <strong>{{ postdata.name }}</strong> {{ postdata.content }}
         </p>
@@ -28,6 +27,7 @@ export default {
   },
   props: {
     postdata: Object,
+    idx: Number,
   },
 };
 </script>
