@@ -1,28 +1,35 @@
 <template>
   <div>
     <div class="post">
-        <div class="post-header">
-            <div class="profile" :style="{ backgroundImage: `url(${postdata.userImage})` }"></div>
-            <span class="profile-name">{{postdata.name}}</span>
-        </div>
-        <div class="post-body" :style="{ backgroundImage: `url(${postdata.postImage})` }"></div>
-        <div class="post-content">
-            <p>{{postdata.likes}} Likes</p>
-            <p><strong>{{postdata.name}}</strong> {{postdata.content}}</p>
-            <p class="date">{{postdata.date}}</p>
-        </div>
-    </div> 
+      <div class="post-header">
+        <div class="profile" :style="`background-image: url(${postdata.userImage})`"></div>
+        <span class="profile-name">{{ postdata.name }}</span>
+      </div>
+      <div @click="$store.commit('like')" :class="`${postdata.filter} post-body`" :style="{ backgroundImage: `url(${postdata.postImage})` }"></div>
+      <div class="post-content">
+        <!-- <p>{{ postdata.likes }} Likes</p> -->
+        <p>{{ $store.state.likes }} Likes</p>
+        <p>
+          <strong>{{ postdata.name }}</strong> {{ postdata.content }}
+        </p>
+        <p class="date">{{ postdata.date }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-    name: 'Post',
-    props: {
-        postdata: Object,
-    }
-
-}
+  name: "Post",
+  data() {
+    return {
+      likeCheck: false,
+    };
+  },
+  props: {
+    postdata: Object,
+  },
+};
 </script>
 
 <style>
@@ -30,7 +37,7 @@ export default {
   width: 100%;
 }
 .profile {
-  /* background-image: url(); */
+  background-image: url("https://placeimg.com/100/100/arch");
   width: 30px;
   height: 30px;
   background-size: 100%;
@@ -63,5 +70,5 @@ export default {
   font-size: 11px;
   color: grey;
   margin-top: -8px;
-} 
+}
 </style>

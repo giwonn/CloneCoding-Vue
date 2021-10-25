@@ -11,7 +11,14 @@
       <img src="./assets/logo.png" class="logo" />
     </div>
 
-    <Container :data="data" :step="step" :imageUrl="imageUrl" @write="writeContent = $event" />
+    <h4>안녕 {{ $store.state.name }} {{ $store.state.age }}</h4>
+    <button @click="$store.commit('setName')">버튼</button><br />
+    <button @click="$store.commit('plusAge', 10)">나이 증가 버튼</button>
+
+    <p>{{ $store.state.more }}</p>
+    <button @click="$store.dispatch('getData')">더보기버튼</button>
+
+    <Container :data="data" :step="step" :imageUrl="imageUrl" :filtered="filtered" @write="writeContent = $event" />
 
     <!-- <button @click="more">더보기</button> -->
 
@@ -37,7 +44,13 @@ export default {
       step: 0,
       imageUrl: "",
       writeContent: "",
+      filtered: "",
     };
+  },
+  mounted() {
+    this.emitter.on("filtered", (filtered) => {
+      this.filtered = filtered;
+    });
   },
   methods: {
     more() {
@@ -65,7 +78,7 @@ export default {
         date: "May 15",
         liked: false,
         content: this.writeContent,
-        filter: "perpetua",
+        filter: this.filtered,
       };
       this.data.unshift(mydata);
       this.step = 0;
